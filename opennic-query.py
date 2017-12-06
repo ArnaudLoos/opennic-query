@@ -12,22 +12,31 @@ opennic = 'https://api.opennicproject.org/geoip/?json&res=10&ipv=4&anon=true'
 # q=100 is 100 queries per server, j=4 uses 4 processor threads, O is to only check the following server IPs. This command ignores your current DNS servers and only tests the downloaded list.
 namebench_base = "namebench -q 100 -j 4 -O "
 
+print("*** Attempting downlaod of server list ***")
+
+try:
+    hosts = requests.get(opennic).json()    # returns a list of dictionaries in json
+except requests.ConnectionError:
+    print("Unable to connect to Opennic website")
+    exit()
+except requests.ConnectionTimeout:
+    print("Connection timed out")
+    exit()
+
+print("*** Server list successfully downloaded ***")
+
 ipList = []
-
-# returns a list of dictionaries in json
-hosts = requests.get(opennic).json()
-
 # Loops through list extracting the IP of each server
-i=0
-while i<10:
+for i in range(0,10):
     ipList.append(hosts[i]['ip'] + " ")
-    i += 1
 
 # Converts list of IPs to string to pass to command
 ipString = ''.join(ipList)
 
 cmd = namebench_base + ipString
 #print(cmd)
+
+print("*** Starting Namebench ***")
 
 # subprocess.run() requires python 3.5 or later
 subprocess.run([cmd], shell=True)

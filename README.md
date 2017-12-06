@@ -5,8 +5,9 @@ This program queries Opennic Tier2 DNS servers and returns the top 10 closest ba
 ## Requirements
 
 This program uses subprocess.run() which requires Python 3.5 or later
+
 Requires Namebench be installed - https://code.google.com/archive/p/namebench/downloads
 
 ## Testing
 
-Has been test to work on macOS Sierra
+Has been tested to work on macOS Sierra

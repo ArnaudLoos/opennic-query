@@ -1,6 +1,7 @@
 import requests
 import json
 import subprocess
+import sys
 
 # Uses Opennic API to trim the list of servers returned
 # https://wiki.opennic.org/api/geoip
@@ -18,10 +19,10 @@ try:
     hosts = requests.get(opennic).json()    # returns a list of dictionaries in json
 except requests.ConnectionError:
     print("Unable to connect to Opennic website")
-    exit()
-except requests.ConnectionTimeout:
-    print("Connection timed out")
-    exit()
+    sys.exit(0)
+except KeyboardInterrupt:
+    print("Exiting...")
+    sys.exit(0)
 
 print("*** Server list successfully downloaded ***")
 
